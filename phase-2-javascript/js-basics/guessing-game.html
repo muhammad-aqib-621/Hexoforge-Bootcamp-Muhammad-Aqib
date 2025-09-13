@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+            background-color: aqua;
+        }
+h1{
+    color:rgb(28, 29, 31);
+    font-size:50px;
+    font-weight: 600;
+    text-align:center;
+}
+    </style>
+</head>
+<body>
+    
+<h1>Number Guessing Game</h1>
+
+    <script>
+
+let secret=12;
+let attempts= 0;
+let restart = "yes";
+
+while(restart=="yes"){
+let guess=prompt("Enter a number 1-100");
+while(guess!=secret){
+    if(guess>secret){
+        console.log("Too High");
+    }
+if(guess<secret){
+    console.log("Too low");
+
+}
+attempts++;
+guess=prompt("Enter a new number (1-100)");
+}
+
+console.log("Congrats you entered Correctly");
+restart=prompt("Play again (yes/no)");
+ secret=Math.floor(Math.random()*100)+1;
+
+}
+    </script>
+</body>
+</html>
