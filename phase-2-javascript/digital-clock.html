@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Clock</title>
+</head>
+<body>
+    <script>
+        let timezone = prompt("Enter your time zone : (eg.Asia/Karachi America/Newyork)", "Asia/Karachi");
+
+        function showTime() { 
+            let date = new Date(); 
+
+            let timeoption12 = { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true, timeZone: timezone };
+            let timestring12 = new Intl.DateTimeFormat('en-US', timeoption12).format(date); 
+
+            let timeoption24 = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: timezone };
+            let timestring24 = new Intl.DateTimeFormat('en-US', timeoption24).format(date); 
+
+            let dateoption = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: timezone };
+            let datestring = new Intl.DateTimeFormat('en-US', dateoption).format(date); 
+
+            let dateoptionshort = { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: timezone };
+            let datestringshort = new Intl.DateTimeFormat('en-US', dateoptionshort).format(date); 
+
+            console.log(`24-hour: ${timestring24}`);
+            console.log(`12-hour: ${timestring12}`); 
+            console.log(`Full Date: ${datestring}`);
+            console.log(`Short Date: ${datestringshort}`); 
+        }
+
+        showTime();
+        setInterval(showTime, 1000);
+    </script>
+</body>
+</html>
