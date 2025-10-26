@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Clock</title>
+  <style>
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #001f3f, #0074D9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    
+    .clock-container {
+      text-align: center;
+      padding: 40px 60px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(12px);
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    .timezone {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #ffd700;
+      letter-spacing: 1px;
+      animation: slideDown 1s ease-out;
+    }
+
+    .time {
+      font-size: 80px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      margin: 10px 0;
+      animation: glowPulse 2s infinite;
+    }
+
+    .time-format {
+      font-size: 24px;
+      opacity: 0.8;
+      margin-top: 5px;
+    }
+
+    .date {
+      font-size: 22px;
+      margin-top: 20px;
+      opacity: 0.9;
+      animation: fadeInUp 1s ease-in;
+    }
+
+    /* ---- Animations ---- */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
+      50% { text-shadow: 0 0 5px #00ffff, 0 0 15px #00ffff; }
+    }
+
+    /*  Responsive Design  */
+    @media (max-width: 600px) {
+      .time { font-size: 50px; }
+      .date { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="clock-container">
+    <div class="timezone" id="timezone"></div>
+    <div class="time" id="time"></div>
+    <div class="time-format" id="format"></div>
+    <div class="date" id="date"></div>
+  </div>
+
+  <script>
+    
+    let timezone = prompt("Enter your time zone (e.g., Asia/Karachi or America/New_York):", "Asia/Karachi");
+    if (!timezone) timezone = "Asia/Karachi"; 
+
+   
+    function updateClock() {
+      const now = new Date();
+
+      const options12 = { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true, timeZone: timezone };
+      const time12 = new Intl.DateTimeFormat('en-US', options12).format(now);
+
+      const options24 = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: timezone };
+      const time24 = new Intl.DateTimeFormat('en-US', options24).format(now);
+
+      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: timezone };
+      const dateString = new Intl.DateTimeFormat('en-US', dateOptions).format(now);
+
+      // ---- Display values ----
+      document.getElementById("timezone").innerText = `${timezone}`;
+      document.getElementById("time").innerText = time24;
+      document.getElementById("format").innerText = `(${time12} - 12hr Format)`;
+      document.getElementById("date").innerText = dateString;
+    }
+
+    
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
