@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        *{
+           
+            margin:0;
+            padding: 0;
+            background-color: aqua;
+
+        }
+        body {
+            font-family:'Times New Roman', Times, serif;
+            padding: 20px;
+            animation: fadeInRight 1s ease-out 0.6s both;
+        }
+        h1{
+            font-size:300%;
+            font-weight: 900;
+            margin-top: 10px;
+        }
+        #questionContainer{
+            text-align: center;
+            font-size: x-large;
+            margin:65px 0 5px
+            
+        }
+
+        #optionsContainer{
+ font-size:large;
+font-weight:90;
+
+        }
+        #optionsContainer button {
+            width:100%;
+            font-weight:bold;
+            font-size:medium;
+            display: block;
+            gap:10px;
+            margin: 35px 0 ;
+            padding: 10px;
+            border:2px solid black;
+             animation: slideDown 1s ease-out 0.6s both;
+            
+        }
+         #optionsContainer button:hover{
+            color:white;
+            background-color: rgb(46, 123, 224);
+            transform: scale(1.3);
+         }
+
+        #feedback {
+
+            font-weight: bold;
+            margin-top: 30px;
+            font-size: 30px;
+        }
+        #result h2{
+            font-size: 35px;
+    margin: 20px 0 20px 0;
+    animation: slideDown 1s ease-out 0.6s both;
+        }
+        #restart{
+            height:50px;
+            width:150px;
+            border-radius: 10px;
+            color:black;
+            background-color: aquamarine;
+            margin:20px 0px 0 20px;
+            animation: slideDown 1s ease-out 0.6s both;
+        } 
+        #restart:hover{
+            color:aliceblue;
+            background-color: bisque;
+            transform: scale(1.5);
+            
+        }
+
+        @keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes slideDown {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+    </style>
+</head>
+
+<body>
+    <h1>Interactive Quiz Application</h1>
+
+    <div id="questionContainer">
+        <h2 id="questionText"></h2>
+        <div id="optionsContainer"></div>
+        <div id="feedback"></div>
+    </div>
+
+    <div id="result" style=" display:none;">
+        <h2> Your score: <span id="score"></span></h2>
+        <button id="restart">Restart Quiz</button>
+    </div>
+    <script>
+
+        //Questions
+        const quizQns = [
+            { question: "What is the capital of Ajk?", options: ["Hajira", "Kotli", "Leepa", "Muzaffarabad"], answer: "Muzaffarabad" },
+            { question: "Which programming language runs in the browser?", options: ["C", "Kotlin", "JavaScript", "C++"], answer: "JavaScript" },
+            { question: "Which of the following is not a JavaScript data type?", options: ["String", "Number", "Character", "Boolean"], answer: "Character" },
+            { question: "Which method adds an element at the end of an array?", options: ["trim()", "push()", "unshift()", "append()"], answer: "push()" },
+            { question: "Which of the following is NOT a feature of JavaScript?", options: ["Single-threaded", "Dynamically typed", "Supports closures", "Strongly typed"], answer: "Strongly typed" }
+        ];
+
+
+        let score = 0;
+        let currentIndex = 0;
+
+        const questionText = document.getElementById("questionText");
+        const optionsContainer = document.getElementById("optionsContainer");
+        const feedback = document.getElementById("feedback");
+        const result = document.getElementById("result");
+        const scores = document.getElementById("score");
+        const restart = document.getElementById("restart");
+
+        // Display Questions
+
+        function showQuestion() {
+            optionsContainer.innerHTML = "";
+            feedback.innerText = "";
+
+
+            if (currentIndex >= quizQns.length) {
+                showResult()
+                return;
+            }
+
+            //display  qns
+            questionText.innerText = quizQns[currentIndex].question;
+            //display  options as a button
+            quizQns[currentIndex].options.forEach(options => {
+                const btn = document.createElement("button");
+                btn.innerText = options;
+                btn.addEventListener("click", checkAnswer);
+                optionsContainer.appendChild(btn);
+            })
+        }
+
+        //Check Answer
+        function checkAnswer(e) {
+            const selected = e.target.innerText;
+            const correct = quizQns[currentIndex].answer;
+
+            if (selected == correct) {
+                score++;
+                feedback.innerText = "Correct Answer ✅"
+                feedback.style.color = "green";
+            }
+            else {
+                feedback.innerText = `Wrong Answer ❌ . Correct answer: ${correct}`;
+                feedback.style.color = "red";
+            }
+            currentIndex++
+            setTimeout(showQuestion, 1300);
+        }
+
+        //Final Answer
+
+        function showResult() {
+            document.getElementById("questionContainer").style.display = "none"
+            result.style.display = "block"
+            scores.innerText = `${score} / ${quizQns.length}`;
+        }
+
+       // Restart Quiz
+const restartButton = document.getElementById("restart");
+const questionContainer = document.getElementById("questionContainer");
+
+restartButton.addEventListener("click", () => {
+    currentIndex = 0;
+    score = 0;
+    result.style.display = "none";
+    questionContainer.style.display = "block";
+    showQuestion(); 
+});
+
+
+
+        showQuestion()
+
+    </script>
+</body>
+
+</html>
